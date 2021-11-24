@@ -4,6 +4,12 @@
 
 <a href="{{route('departments.create')}}" class="btn btn-success mb-3">Create</a>
 
+@if (session()->get('success'))
+    <div class="alert alert-success mt-3">
+      {{ session()->get('success') }}
+    </div>
+@endif
+
 <table class="table">
     <thead>
       <tr>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Add Departments')
+@section('title', 'Edit Department')
 @section('content')
 
 <div class="row">
@@ -14,13 +14,14 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('departments.store') }}">
+        <form method="POST" action="{{ route('departments.update', $department) }}">
+            @method('PATCH')
             @csrf
             <div class="form-group">
-                <label for="nameWorker">Add departments</label>
-                <input type="text" class="form-control" id="nameWorker" placeholder="Administrations" name="name" value="{{ old('name') }}">
+                <label for="nameDepartment">Edit department</label>
+                <input name="name" type="text" class="form-control" id="nameDepartment"  value="{{ $department->name }}">
             </div>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 </div>

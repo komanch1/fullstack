@@ -37270,6 +37270,10 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+$(function () {
+  $('.alert-success').fadeOut(3000);
+});
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

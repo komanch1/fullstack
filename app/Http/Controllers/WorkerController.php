@@ -48,10 +48,10 @@ class WorkerController extends Controller
         // $mytime->now()->toDateTimeString();
         $worker = new Worker([
             'name' => $request->get('name'),
-            'salary' => 3000,
-            'department_id' => null,
+            'salary' => $request->get('salary'),
+            // 'department_id' => null,
         ]);
-        $worker->create();
+        $worker->save();
         return redirect('/workers')->with('success', 'Worker saved!');
     }
 
@@ -63,7 +63,9 @@ class WorkerController extends Controller
      */
     public function show($id)
     {
-        return Worker::find($id);
+        // return Worker::find($id);
+        $worker = Worker::find($id);
+        return view('workers.show', compact('worker'));
     }
 
     /**
@@ -74,7 +76,9 @@ class WorkerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $worker = Worker::find($id);
+        return view('workers.edit', compact('worker'));
+        // return response()->json([ $worker]);
     }
 
     /**
@@ -86,12 +90,17 @@ class WorkerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Worker::find($id)->update([
-            'name' => $request->name,
-            'salary' => $request->salary,
-            'department_id' => $request->department_id
+        $request->validate([
+            'name' => 'required',
+            'salary' => 'required'
         ]);
-        return Worker::find($id);
+        Worker::find($id)->update([
+            'name' => $request->get('name'),
+            'salary' => $request->get('salary'),
+            'department_id' => $request->get('department_id')
+        ]);
+        // return Worker::find($id);
+        return redirect('/workers')->with('success', 'Worker updated!');
     }
 
     /**
@@ -103,6 +112,6 @@ class WorkerController extends Controller
     public function destroy($id)
     {
         Worker::find($id)->delete();
-        return 'Worker is delete';
+        return redirect('/workers')->with('success', 'Worker delete!');
     }
 }

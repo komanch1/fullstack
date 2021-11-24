@@ -14,7 +14,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::all();
+        $departments = Department::orderByDesc('id')->get();
         return view('departments.index', compact('departments'));
     }
 
@@ -25,10 +25,6 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        // $department = new Department();
-        // $department->name = '';
-        // $department->worker_id = 1;
-        // $department->create();
         return view('departments.create' );
     }
 
@@ -42,8 +38,12 @@ class DepartmentController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            // 'salary' => 'required'
         ]);
+        $department = new Department([
+            'name' => $request->get('name'),
+        ]);
+        $department->save();
+        return redirect('/departments')->with('success', 'Department saved!');
     }
 
     /**
@@ -54,7 +54,9 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        return Department::find($id);
+        // return Department::find($id);
+        $department = Department::find($id);
+        return view('departments.show', compact('department'));
     }
 
     /**
@@ -65,7 +67,8 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $department = Department::find($id);
+        return view('departments.edit', compact('department'));
     }
 
     /**
@@ -77,8 +80,14 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Department::find($id)->update(['name' => $request->name]);
-        return Department::find($id);
+        $request->validate([
+            'name' => 'required',
+        ]);
+        Department::find($id)->update([
+            'name' => $request->get('name'),
+            'department_id' => $request->get('department_id')
+        ]);
+        return redirect('/departments')->with('success', 'Department updated!');
     }
 
     /**
