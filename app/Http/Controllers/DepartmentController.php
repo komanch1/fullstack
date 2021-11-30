@@ -12,9 +12,32 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $departments = Department::orderByDesc('id')->get();
+        // $departments = Department::orderByDesc('id')->get();
+        $departmentQuery = Department::query();//->orderByDesc('id')->get()
+        if($request->filled('sort')){
+            if($request->all()['sort'] == "id"){
+                $departmentQuery->orderBy('id')->get();
+            }
+            if($request->all()['sort'] == "desc_id"){
+                $departmentQuery->orderByDesc('id')->get();
+            }
+            if($request->all()['sort'] == "name"){
+                $departmentQuery->orderBy('name')->get();
+            }
+            if($request->all()['sort'] == "desc_name"){
+                $departmentQuery->orderByDesc('name')->get();
+            }
+            // if($request->all()['sort'] == "worker"){
+            //     $departmentQuery->orderBy('worker_id')->get();
+            // }
+            // if($request->all()['sort'] == "worker"){
+            //     $departmentQuery->orderByDesc('worker_id')->get();
+            // }
+        }
+        // dd(Department::workers());
+        $departments = $departmentQuery->paginate(9);
         return view('departments.index', compact('departments'));
     }
 

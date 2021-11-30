@@ -21,27 +21,8 @@ Route::get('/', function () {
 
 // worker routes - start
 Route::resource('workers', 'WorkerController');
-// Route::get('workers','WorkerController@index');
-// Route::get('workers/create','WorkersController@create');
-// Route::post('workers','WorkersController@store');
-// Route::get('workers/{id}','WorkersController@show');
-// Route::get('workers/{id}/edit','WorkersController@edit');
 
-// Route::get('/worker', function () {
-//     return 'worker - show';
-// });
 
-// Route::post('/worker', function () {
-//     return 'worker - create';
-// });
-
-// Route::put('/worker', function () {
-//     return 'worker - edit';
-// });
-
-// Route::delete('/worker', function () {
-//     return 'worker - destroy';
-// });
 //  worker routes - end
 
 // department routes - start

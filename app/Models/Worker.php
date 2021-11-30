@@ -9,4 +9,9 @@ class Worker extends Model
     protected $fillable = [
         'name', 'salary', 'department_id'
     ];
+
+    public function department()
+    {
+        return $this->belongsTo('App\Models\Department', 'worker_id', 'id');
+    }
 }

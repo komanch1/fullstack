@@ -14,11 +14,42 @@ class WorkerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $workers = Worker::orderByDesc('id')->get();
+        
+        $workerQuery = Worker::query();//->orderByDesc('id')->get()
+        if($request->filled('sort')){
+            if($request->all()['sort'] == "id"){
+                $workerQuery->orderBy('id')->get();
+            }
+            if($request->all()['sort'] == "desc_id"){
+                $workerQuery->orderByDesc('id')->get();
+            }
+            if($request->all()['sort'] == "name"){
+                $workerQuery->orderBy('name')->get();
+            }
+            if($request->all()['sort'] == "desc_name"){
+                $workerQuery->orderByDesc('name')->get();
+            }
+            if($request->all()['sort'] == "salary"){
+                $workerQuery->orderBy('salary')->get();
+            }
+            if($request->all()['sort'] == "desc_salary"){
+                $workerQuery->orderByDesc('salary')->get();
+            }
+            // if($request->all()['sort'] == "department"){
+            //     $workerQuery->orderBy('department')->get();
+            // }
+            // if($request->all()['sort'] == "desc_department"){
+            //     $workerQuery->orderByDesc('department')->get();
+            // }
+            // dd($request->all()['sort']);
+        }
+        
+        $workers = $workerQuery->paginate(3);//
+        
         return view('workers.index', compact('workers'));
-        // return response()->json([ 'workers' => 'all']);
+        
     }
 
     /**
